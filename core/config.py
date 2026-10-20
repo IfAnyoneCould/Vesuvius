@@ -8,15 +8,37 @@ class Player:
         self.start_gold: int = data["start_gold"]
 
 
+class _Dev_Unit_:
+    def __init__(self, data) -> None:
+        self.base_health = data["base_health"]
+        self.base_damage = data["base_damage"]
+
+
 class Warrior:
     def __init__(self, data) -> None:
         self.base_health = data["base_health"]
+        self.base_damage = data["base_damage"]
+
+
+class Ranger:
+    def __init__(self, data) -> None:
+        self.base_health = data["base_health"]
+        self.base_damage = data["base_damage"]
+
+
+class Scout:
+    def __init__(self, data) -> None:
+        self.base_health = data["base_health"]
+        self.base_damage = data["base_damage"]
 
 
 class Unit:
     def __init__(self, data) -> None:
         self.start_gold: int = data["start_gold"]
+        self._dev_unit_ = _Dev_Unit_(data["_dev_unit_"])
         self.warrior = Warrior(data["warrior"])
+        self.ranger = Ranger(data["ranger"])
+        self.scout = Scout(data["_dev_unit_"])
 
 
 class Game:

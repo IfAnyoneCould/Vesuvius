@@ -5,9 +5,22 @@
     "start_gold": 0
   },
   "unit": {
-    "start_gold": 2,
+    "start_gold": 0,
+    "_dev_unit_": {
+      "base_health": 9999999,
+      "base_damage": 9999999
+    },
     "warrior": {
-      "base_health": 10
+      "base_health": 10,
+      "base_damage": 3
+    },
+    "ranger": {
+      "base_health": 7,
+      "base_damage": 3
+    },
+    "scout": {
+      "base_health": 6,
+      "base_damage": 2
     }
   },
   "game": {

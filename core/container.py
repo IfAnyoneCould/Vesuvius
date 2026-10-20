@@ -1,5 +1,6 @@
 from components.gold import GoldHandler
 from components.health import HealthHandler
+from components.damage import DamageHandler
 from core.config import Config
 
 
@@ -8,3 +9,4 @@ class HandlerContainer:
         self.config = config
         self.gold_handler = GoldHandler(config)
         self.healh_handler = HealthHandler(config)
+        self.damage_handler = DamageHandler(config)
