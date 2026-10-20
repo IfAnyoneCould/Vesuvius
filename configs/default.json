@@ -1,0 +1,17 @@
+{
+  "player": {
+    "count": 4,
+    "units": 3,
+    "start_gold": 0
+  },
+  "unit": {
+    "start_gold": 2,
+    "warrior": {
+      "base_health": 10
+    }
+  },
+  "game": {
+    "max_rounds": 15,
+    "winning_gold": 100
+  }
+}

@@ -1,0 +1,51 @@
+# --- Python bytecode / caches ---
+__pycache__/
+*.py[cod]
+
+# --- MicroPython compiled files (built with mpy-cross) ---
+# Remove this line if you deliberately commit .mpy files.
+*.mpy
+
+# --- Firmware images ---
+*.uf2
+*.bin
+*.elf
+
+# --- Secrets (Wi-Fi credentials, API keys on Pico W) ---
+# Commit a template like secrets_example.py instead.
+secrets.py
+config_local.py
+.env
+
+# --- Virtual environments (for host-side tools: mpremote, stubs, etc.) ---
+.venv/
+venv/
+env/
+
+# --- micropython.nvim ---
+# .micropython stores your serial port and baud rate. Uncomment to keep
+# machine-specific settings out of the repo (e.g. /dev/ttyACM0 vs COM3).
+# .micropython
+
+# --- Type stubs / editor helpers ---
+typings/
+.vscode/Pico-W-Stub/
+.vscode/Pico-Stub/
+
+# --- Editor settings ---
+# Remove .vscode/ if you want to share MicroPico/VS Code settings with others.
+.vscode/
+.idea/
+*.swp
+*~
+
+# --- Tooling caches ---
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.pyright/
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
