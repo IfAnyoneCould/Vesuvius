@@ -1,6 +1,6 @@
-from gold import GoldHandler
-from health import HealthHandler
-from config import Config
+from components.gold import GoldHandler
+from components.health import HealthHandler
+from core.config import Config
 
 
 class HandlerContainer:

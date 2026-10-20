@@ -1,5 +1,5 @@
-from config import Config
-from handlertemplate import HandlerTemplate
+from core.config import Config
+from core.handler import HandlerTemplate
 
 
 class HealthHandler(HandlerTemplate):
