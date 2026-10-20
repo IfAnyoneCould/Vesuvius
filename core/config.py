@@ -38,7 +38,7 @@ class Unit:
         self._dev_unit_ = _Dev_Unit_(data["_dev_unit_"])
         self.warrior = Warrior(data["warrior"])
         self.ranger = Ranger(data["ranger"])
-        self.scout = Scout(data["_dev_unit_"])
+        self.scout = Scout(data["scout"])
 
 
 class Game:
