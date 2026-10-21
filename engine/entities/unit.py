@@ -1,5 +1,5 @@
-import core.entity as Entity
-from core.container import HandlerContainer
+import engine.core.entity as Entity
+from engine.core.container import HandlerContainer
 
 
 def new_unit(kind, handlers: HandlerContainer):

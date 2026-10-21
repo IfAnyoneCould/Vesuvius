@@ -1,7 +1,7 @@
-from components.gold import GoldHandler
-from components.health import HealthHandler
-from components.damage import DamageHandler
-from core.config import Config
+from engine.components.gold import GoldHandler
+from engine.components.health import HealthHandler
+from engine.components.damage import DamageHandler
+from engine.core.config import Config
 
 
 class HandlerContainer:

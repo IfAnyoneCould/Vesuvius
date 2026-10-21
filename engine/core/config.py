@@ -64,8 +64,8 @@ def deep_merge(base, override):
 
 
 def load_config(path):
-    with open("configs/default.json") as f:
+    with open("engine/configs/default.json") as f:
         data = json.load(f)
-    with open("configs/" + path + ".json") as f:
+    with open("engine/configs/" + path + ".json") as f:
         deep_merge(data, json.load(f))
     return Config(data)

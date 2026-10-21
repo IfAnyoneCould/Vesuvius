@@ -1,4 +1,4 @@
-from core.config import Config
+from engine.core.config import Config
 
 
 class HandlerTemplate:

@@ -1,5 +1,5 @@
-from core.config import Config
-from core.handler import HandlerTemplate
+from engine.core.config import Config
+from engine.core.handler import HandlerTemplate
 
 
 class GoldHandler(HandlerTemplate):

@@ -1,5 +1,5 @@
-from core.handler import HandlerTemplate
-from core.config import Config
+from engine.core.handler import HandlerTemplate
+from engine.core.config import Config
 
 
 class PlayerHandler(HandlerTemplate):

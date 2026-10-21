@@ -1,5 +1,5 @@
-from core.container import HandlerContainer
-import core.entity as Entity
+from engine.core.container import HandlerContainer
+import engine.core.entity as Entity
 
 
 def new_castle(handlers: HandlerContainer):
