@@ -26,5 +26,14 @@
   "game": {
     "max_rounds": 15,
     "winning_gold": 100
+  },
+  "regions": {
+    "count": 4,
+    "names": [
+      "forest",
+      "desert",
+      "mountains",
+      "tundra"
+    ]
   }
 }

@@ -4,7 +4,7 @@ import json
 class Player:
     def __init__(self, data) -> None:
         self.count: int = data["count"]
-        self.untis: int = data["units"]
+        self.units: int = data["units"]
         self.start_gold: int = data["start_gold"]
 
 
@@ -47,11 +47,18 @@ class Game:
         self.winning_gold: int = data["winning_gold"]
 
 
+class Regions:
+    def __init__(self, data) -> None:
+        self.count = data["count"]
+        self.names = data["names"]
+
+
 class Config:
     def __init__(self, data):
         self.player = Player(data["player"])
         self.unit = Unit(data["unit"])
         self.game = Game(data["game"])
+        self.regions = Regions(data["regions"])
 
 
 def deep_merge(base, override):

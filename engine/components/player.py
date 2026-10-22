@@ -8,8 +8,9 @@ class PlayerHandler(HandlerTemplate):
         self.handlers = {"standard": StandardPlayerHandler(config)}
         self.unit_to_player = {}
         self.castle_to_player = {}
+        self.region_to_player = {}
 
-    def add(self, id, kind, units=None):
+    def add(self, id, kind="standard", units=None):
         handler = self.handlers[kind]
         self.ids[id] = handler
         handler.add(id)
@@ -28,6 +29,8 @@ class PlayerHandler(HandlerTemplate):
     def remove(self, id):
         if self.get_castle(id) is not None:
             self.castle_to_player.pop(self.get_castle(id), None)
+        if self.get_region(id) is not None:
+            self.region_to_player.pop(self.get_region(id), None)
         units = self.get_units(id).copy()
         for unit in units:
             self.remove_unit(id, unit)
@@ -35,14 +38,18 @@ class PlayerHandler(HandlerTemplate):
         self.ids.pop(id, None)
 
     def get_player_from_unit(self, unit_id):
-        return self.unit_to_player[unit_id]
+        return self.unit_to_player.get(unit_id)
 
     def get_player_from_castle(self, castle_id):
-        return self.castle_to_player[castle_id]
+        return self.castle_to_player.get(castle_id)
 
     def add_castle(self, player_id, castle_id):
         self.ids[player_id].add_castle(player_id, castle_id)
         self.castle_to_player[castle_id] = player_id
+
+    def remove_castle(self, player_id, castle_id):
+        self.castle_to_player.pop(castle_id, None)
+        self.ids[player_id]
 
     def get_castle(self, id):
         return self.ids[id].get_castle(id)
@@ -50,11 +57,22 @@ class PlayerHandler(HandlerTemplate):
     def get_units(self, id):
         return self.ids[id].get_units(id)
 
+    def add_region(self, player_id, region_id):
+        self.ids[player_id].add_region(player_id, region_id)
+        self.region_to_player[region_id] = player_id
+
+    def get_region(self, id):
+        return self.ids[id].get_region(id)
+
+    def get_player_from_region(self, id):
+        return self.region_to_player.get(id)
+
 
 class StandardPlayerHandler:
     def __init__(self, config: Config):
         self._units = {}
         self._castle = {}
+        self._region = {}
 
     def add(self, id):
         self._units[id] = []
@@ -69,6 +87,7 @@ class StandardPlayerHandler:
     def remove(self, id):
         self._castle.pop(id, None)
         self._units.pop(id, None)
+        self._region.pop(id, None)
 
     def add_castle(self, player_id, castle_id):
         self._castle[player_id] = castle_id
@@ -78,3 +97,9 @@ class StandardPlayerHandler:
 
     def get_units(self, id):
         return self._units[id]
+
+    def add_region(self, player_id, region_id):
+        self._region[player_id] = region_id
+
+    def get_region(self, id):
+        return self._region.get(id, None)
