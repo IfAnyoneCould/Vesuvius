@@ -1,10 +1,48 @@
 {
-  "lcd": {
-    "sck": 18,
-    "mosi": 19,
-    "res": 20,
-    "dc": 17,
-    "bl": 16
+  "scanners": {
+    "count": 7,
+    "positions": {
+      "center": 0,
+      "left_one": 1,
+      "left_two": 2,
+      "left_three": 3,
+      "right_one": 4,
+      "right_two": 5,
+      "right_three": 6
+    },
+    "shared_pins": {
+      "sck": 18,
+      "mosi": 19,
+      "miso": 16,
+      "rst": 7
+    },
+    "cs": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
   },
-  "scanners": {}
+  "sd": {
+    "baud": 20000000,
+    "sck": 10,
+    "mosi": 11,
+    "miso": 12,
+    "cs": 17,
+    "mount_point": "/sd"
+  },
+  "lcd": {
+    "baud": 40000000,
+    "resx": 320,
+    "resy": 240,
+    "sck": 10,
+    "mosi": 11,
+    "cs": 13,
+    "dc": 14,
+    "rst": 15,
+    "bl": 9
+  }
 }
