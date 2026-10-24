@@ -1,5 +1,23 @@
 {
+  "spi": {
+    "0": {
+      "sck": 18,
+      "mosi": 19,
+      "miso": 16
+    },
+    "1": {
+      "sck": 10,
+      "mosi": 11,
+      "miso": 12
+    }
+  },
   "scanners": {
+    "memory_block": {
+      "start": "0x5",
+      "end": "0xE",
+      "page_size": 4,
+      "pages_per_read": 4
+    },
     "count": 7,
     "positions": {
       "center": 0,
@@ -10,10 +28,8 @@
       "right_two": 5,
       "right_three": 6
     },
-    "shared_pins": {
-      "sck": 18,
-      "mosi": 19,
-      "miso": 16,
+    "shared": {
+      "spi_id": 0,
       "rst": 7
     },
     "cs": [
@@ -28,9 +44,7 @@
   },
   "sd": {
     "baud": 20000000,
-    "sck": 10,
-    "mosi": 11,
-    "miso": 12,
+    "spi_id": 1,
     "cs": 17,
     "mount_point": "/sd"
   },
@@ -38,8 +52,7 @@
     "baud": 40000000,
     "resx": 320,
     "resy": 240,
-    "sck": 10,
-    "mosi": 11,
+    "spi_id": 1,
     "cs": 13,
     "dc": 14,
     "rst": 15,

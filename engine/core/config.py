@@ -53,12 +53,21 @@ class Regions:
         self.names = data["names"]
 
 
+class Rfid:
+    def __init__(self, data) -> None:
+        self.id_bytes = data["id_bytes"]
+        self.id_encoding = data["id_encoding"]
+        self.piece_bytes = data["piece_bytes"]
+        self.region_bytes = data["region_bytes"]
+
+
 class Config:
     def __init__(self, data):
         self.player = Player(data["player"])
         self.unit = Unit(data["unit"])
         self.game = Game(data["game"])
         self.regions = Regions(data["regions"])
+        self.rfid = Rfid(data["rfid"])
 
 
 def deep_merge(base, override):
@@ -71,8 +80,8 @@ def deep_merge(base, override):
 
 
 def load_config(path):
-    with open("engine/configs/default.json") as f:
+    with open("configs/engine_default.json") as f:
         data = json.load(f)
-    with open("engine/configs/" + path + ".json") as f:
+    with open("configs/" + path + ".json") as f:
         deep_merge(data, json.load(f))
     return Config(data)

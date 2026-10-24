@@ -3,6 +3,7 @@ from engine.components.health import HealthHandler
 from engine.components.player import PlayerHandler
 from engine.components.damage import DamageHandler
 from engine.components.region import RegionHandler
+from engine.components.rfid import RFIDHandler
 from engine.core.config import Config
 
 
@@ -14,3 +15,4 @@ class HandlerContainer:
         self.damage_handler = DamageHandler(config)
         self.player_handler = PlayerHandler(config)
         self.region_handler = RegionHandler(config)
+        self.rfid_handler = RFIDHandler(config)

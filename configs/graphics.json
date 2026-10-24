@@ -1,0 +1,31 @@
+{
+  "textures": {
+    "bytes_per_pixel": 2,
+    "texture example": {
+      "path": "sd/example",
+      "sizex": 320,
+      "sizey": 240
+    }
+  },
+  "texturemaps": {
+    "texturemap example": {
+      "source_texture": "texture example",
+      "rows": 4,
+      "cols": 6
+    }
+  },
+  "animations": {
+    "animation example": {
+      "source_map": "texturemap example",
+      "start_frame": 2,
+      "end_frame": 4,
+      "time_step_ms": 500
+    }
+  },
+  "sprites": {
+    "sprite example": {
+      "source_map": "texturemap example",
+      "frame": 5
+    }
+  }
+}

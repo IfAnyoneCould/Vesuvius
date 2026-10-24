@@ -35,5 +35,11 @@
       "mountains",
       "tundra"
     ]
+  },
+  "rfid": {
+    "id_bytes": 4,
+    "id_encoding": "big",
+    "region_bytes": 16,
+    "piece_bytes": 16
   }
 }
