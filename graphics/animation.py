@@ -43,8 +43,10 @@ class Animation:
     def set_frame(self, frame):
         if (
             self.start_frame <= frame <= self.end_frame
-        ):  # ik this this duplicated code, but its small so who cares
+        ):  # ik this is duplicated code, but its small so who cares
             self.current_frame = frame
+            self.last_frame_change_ms = None
+            self.frame_data = self.load_frame(self.current_frame)
             return
         raise ValueError(f"frame {frame} outside animation bounds")
 
@@ -62,11 +64,15 @@ class Animation:
     ):  # you run play every frame you want it to run and give it the current time
         if self.last_frame_change_ms is None:
             self.last_frame_change_ms = time_ms
-            self.frame_data = self.load_frame(self.current_frame)
+            if self.frame_data is None:
+                self.frame_data = self.load_frame(self.current_frame)
         delta_time = time_ms - self.last_frame_change_ms
         if delta_time >= self.time_step_ms:
             self.advance_frame()
-            self.last_frame_change_ms = time_ms
+            if delta_time >= 2 * self.time_step_ms:
+                self.last_frame_change_ms = time_ms
+            else:
+                self.last_frame_change_ms += self.time_step_ms
             self.frame_data = self.load_frame(self.current_frame)
         return self.frame_data
 
@@ -80,7 +86,7 @@ class Animation:
 
     def draw(self, lcd: LCD):
         if self.frame_data is None:
-            return
+            raise ValueError("cannot draw uninitialized animation")
         lcd.use_lcd()
         lcd.blit(
             self.frame_data,
