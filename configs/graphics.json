@@ -2,7 +2,7 @@
   "textures": {
     "bytes_per_pixel": 2,
     "texture example": {
-      "path": "sd/example",
+      "path": "/sd/example",
       "sizex": 320,
       "sizey": 240
     }

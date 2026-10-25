@@ -44,6 +44,7 @@ class Lcd:
         self.dc = data["dc"]
         self.rst = data["rst"]
         self.bl = data["bl"]
+        self.bpp = data["bpp"]
 
 
 class IoConfig:

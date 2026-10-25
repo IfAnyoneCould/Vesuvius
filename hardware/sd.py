@@ -15,10 +15,10 @@ class SD:
             sd = sdcard.SDCard(spi, Pin(config.sd.cs, Pin.OUT), baudrate=config.sd.baud)
             os.mount(sd, config.sd.mount_point)
             self.initialized = True
-            return None
+            return
         except OSError as e:
             self.initialized = False
-            return e
+            self.error = e
 
     def use_sd(self):
         if not self.initialized:
