@@ -18,15 +18,13 @@
       "page_size": 4,
       "pages_per_read": 4
     },
-    "count": 7,
+    "count": 5,
     "positions": {
       "center": 0,
       "left_one": 1,
       "left_two": 2,
-      "left_three": 3,
       "right_one": 4,
-      "right_two": 5,
-      "right_three": 6
+      "right_two": 5
     },
     "shared": {
       "spi_id": 0,
@@ -37,9 +35,7 @@
       1,
       2,
       3,
-      4,
-      5,
-      6
+      4
     ]
   },
   "sd": {
@@ -58,5 +54,13 @@
     "rst": 15,
     "bl": 9,
     "bpp": 2
+  },
+  "buttons": {
+    "count": 2,
+    "poll_rate_ms": 20,
+    "names_to_pins": {
+      "A": 21,
+      "B": 22
+    }
   }
 }

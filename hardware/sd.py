@@ -9,6 +9,7 @@ class SD:
     def __init__(self, spi_handler: SPIHandler, config: IoConfig):
         self.spi_handler = spi_handler
         self.config = config
+        self.error = None
         try:
             Pin(config.lcd.cs, Pin.OUT, value=1)  # deselect display during SD init
             spi = spi_handler.get_spi(config.sd.spi_id)

@@ -1,9 +1,16 @@
-from machine import Pin
-from time import sleep
+from game.context import GameContext
 
-led = Pin("LED", Pin.OUT)
 
-while True:
-    led.value(not led.value())
-    print("LED is ON" if led.value() else "LED is OFF")
-    sleep(0.5)
+def main():
+    try:
+        ctx = GameContext()
+
+    except Exception as e:
+        with open("/logs/errors.txt", "a+") as f:
+            f.write(e)
+        # TODO function that does stuff here, notifies players, etc
+        main()
+
+
+if __name__ == "main.py":
+    main()

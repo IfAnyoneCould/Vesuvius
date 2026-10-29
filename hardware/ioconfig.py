@@ -24,6 +24,10 @@ class Scanners:
         ]  # kept as a dict because it's easier to work with
         self.shared = Shared(data["shared"])
         self.cs = data["cs"]
+        if self.count != len(self.positions):
+            raise ValueError(
+                "ioconfig.scanners.count must match length of positions and cs, check config"
+            )
 
 
 class Sd:
@@ -47,12 +51,24 @@ class Lcd:
         self.bpp = data["bpp"]
 
 
+class Buttons:
+    def __init__(self, data) -> None:
+        self.count = data["count"]
+        self.poll_rate_ms = data["poll_rate_ms"]
+        self.names = data["names_to_pins"]
+        if self.count != len(self.names):
+            raise ValueError(
+                "ioconfig.buttons.count must match length of names_to_pins, check config"
+            )
+
+
 class IoConfig:
     def __init__(self, data) -> None:
         self.spi = data["spi"]
         self.sd = Sd(data["sd"])
         self.lcd = Lcd(data["lcd"])
         self.scanners = Scanners(data["scanners"])
+        self.buttons = Buttons(data["buttons"])
 
 
 def load_config():
