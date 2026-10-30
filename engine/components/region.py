@@ -1,6 +1,5 @@
 from engine.core.config import Config
 from engine.core.handler import HandlerTemplate
-from engine.entities import regions
 
 
 class RegionHandler(HandlerTemplate):

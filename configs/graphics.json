@@ -19,7 +19,7 @@
       "source_map": "texturemap example",
       "start_frame": 0,
       "end_frame": 22,
-      "time_step_ms": 500
+      "time_step_ms": 167
     }
   },
   "sprites": {

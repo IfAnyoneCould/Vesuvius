@@ -33,6 +33,7 @@ g_config = graphicsconfig.load_config()
 spi = SPIHandler(h_config)
 sd = SD(spi, h_config)
 lcd = LCD(spi, h_config)
+
 animation = Animation("animation example", sd, g_config)
 
 animation.gen_buffer()

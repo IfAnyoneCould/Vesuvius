@@ -25,6 +25,8 @@ import time
 
 
 _CMD_TIMEOUT = const(100)
+# data token polls before falling back to 1ms sleeps, then _CMD_TIMEOUT sleeps (~100ms) after
+_READ_FAST_POLLS = const(1000)
 
 _R1_IDLE_STATE = const(1 << 0)
 # R1_ERASE_RESET = const(1 << 1)
@@ -141,7 +143,9 @@ class SDCard:
             self.cmd(58, 0, 4)
             self.cmd(55, 0)
             if self.cmd(41, 0x40000000) == 0:
-                self.cmd(58, 0, -4)  # 4-byte response, negative means keep the first byte
+                self.cmd(
+                    58, 0, -4
+                )  # 4-byte response, negative means keep the first byte
                 ocr = self.tokenbuf[0]  # get first byte of response, which is OCR
                 if not ocr & 0x40:
                     # SDSC card, uses byte addressing in read/write/erase commands
@@ -195,11 +199,12 @@ class SDCard:
         self.cs(0)
 
         # read until start byte (0xff)
-        for i in range(_CMD_TIMEOUT):
+        for i in range(_READ_FAST_POLLS + _CMD_TIMEOUT):
             self.spi.readinto(self.tokenbuf, 0xFF)
             if self.tokenbuf[0] == _TOKEN_DATA:
                 break
-            time.sleep_ms(1)
+            if i >= _READ_FAST_POLLS:
+                time.sleep_ms(1)
         else:
             self.cs(1)
             raise OSError("timeout waiting for response")

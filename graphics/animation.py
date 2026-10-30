@@ -108,7 +108,7 @@ class Animation:
 
     def draw(self, lcd: LCD):
         if self.is_new_frame():
-            self.draw(lcd)
+            self.draw_frame(lcd)
 
     def is_finished(self):
         return self.finished
