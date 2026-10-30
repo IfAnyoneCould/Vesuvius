@@ -27,6 +27,8 @@ class Animation:
         self.y_pos = 0
         self.last_frame_change_ms = None
         self.frame_data = None
+        self.finished = False
+        self.just_changed = False
 
     def load_frame(self, frame):
         if (
@@ -38,7 +40,10 @@ class Animation:
     def advance_frame(self):
         self.current_frame += 1
         if self.current_frame > self.end_frame:
+            self.finished = True
             self.current_frame = self.start_frame
+        else:
+            self.finished = False
 
     def set_frame(self, frame):
         if (
@@ -64,8 +69,10 @@ class Animation:
     ):  # you run play every frame you want it to run and give it the current time
         if self.last_frame_change_ms is None:
             self.last_frame_change_ms = time_ms
+            self.just_changed = True
             if self.frame_data is None:
                 self.frame_data = self.load_frame(self.current_frame)
+            return self.frame_data
         delta_time = time_ms - self.last_frame_change_ms
         if delta_time >= self.time_step_ms:
             self.advance_frame()
@@ -74,6 +81,9 @@ class Animation:
             else:
                 self.last_frame_change_ms += self.time_step_ms
             self.frame_data = self.load_frame(self.current_frame)
+            self.just_changed = True
+        else:
+            self.just_changed = False
         return self.frame_data
 
     def unload(self):
@@ -84,7 +94,7 @@ class Animation:
     def gen_buffer(self):
         self.texturemap.gen_buffer()
 
-    def draw(self, lcd: LCD):
+    def draw_frame(self, lcd: LCD):
         if self.frame_data is None:
             raise ValueError("cannot draw uninitialized animation")
         lcd.use_lcd()
@@ -95,3 +105,13 @@ class Animation:
             self.texturemap.sprite_w,
             self.texturemap.sprite_h,
         )
+
+    def draw(self, lcd: LCD):
+        if self.is_new_frame():
+            self.draw(lcd)
+
+    def is_finished(self):
+        return self.finished
+
+    def is_new_frame(self):
+        return self.just_changed

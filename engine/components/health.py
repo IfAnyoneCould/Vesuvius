@@ -32,8 +32,11 @@ class HealthHandler(HandlerTemplate):
     def sub_health(self, id, val):
         self.ids[id].sub_health(id, val)
 
-    def set_max_health(self, id, val):
-        self.ids[id].set_max_health(id, val)
+    def set_health_mod(self, id, val):
+        self.ids[id].set_health_mod(id, val)
+
+    def full_heal(self, id):
+        self.ids[id].full_heal(id)
 
 
 class UnitHealthHandler:
@@ -68,5 +71,8 @@ class UnitHealthHandler:
     def sub_health(self, id, val):
         self._health[id] = max(0, self.get_health(id) - val)
 
-    def set_max_health(self, id, val):
-        self._max_health[id] = val
+    def set_health_mod(self, id, val):
+        self._max_health[id] = val + self._base_health[id]
+
+    def full_heal(self, id):
+        self._health[id] = self._max_health[id]

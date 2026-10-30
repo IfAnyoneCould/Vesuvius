@@ -35,7 +35,7 @@ class Scanners:
         for i, s in enumerate(self.scanners):
             result = self.poll_scanner(s)
             if result is not None:
-                results[i] = result
+                results[self.get_position_from_index(i)] = result
         return results
 
     def poll_position(self, position):

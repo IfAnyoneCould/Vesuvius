@@ -41,7 +41,8 @@ class Buttons:
             self.last_time = time_ms
 
     def is_pressed(self, name):
-        button = self.get_button(name.lowe())
+        name = name.lower()
+        button = self.get_button(name)
         if button is not None:
             return self.just_pressed[name]
         raise ValueError(f"button {name} not recognized")

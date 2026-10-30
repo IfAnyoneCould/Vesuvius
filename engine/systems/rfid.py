@@ -1,4 +1,3 @@
-from engine.core import rfid
 from engine.core.rfid import RFIDProcessor
 from hardware.scanners import Scanners
 

@@ -41,10 +41,18 @@ class Unit:
         self.scout = Scout(data["scout"])
 
 
+class FarmingRewards:
+    def __init__(self, data) -> None:
+        self.own = data["own"]
+        self.adjacent = data["adjacent"]
+        self.diagonal = data["diagonal"]
+
+
 class Game:
     def __init__(self, data) -> None:
         self.max_rounds: int = data["max_rounds"]
         self.winning_gold: int = data["winning_gold"]
+        self.farming_rewards = FarmingRewards(data["farming_rewards"])
 
 
 class Regions:

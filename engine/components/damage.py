@@ -14,8 +14,8 @@ class DamageHandler(HandlerTemplate):
     def get_damage(self, id):
         return self.ids[id].get_damage(id)
 
-    def set_damage(self, id, val):
-        self.ids[id].set_damage(id, val)
+    def set_damage_mod(self, id, val):
+        self.ids[id].set_damage_mod(id, val)
 
     def get_base_damage(self, id):
         return self.ids[id].get_base_damage(id)
@@ -28,16 +28,16 @@ class UnitDamageHandler:
 
     def add(self, id, base):
         self._base_damage[id] = base
-        self._damage[id] = base
+        self._damage[id] = 0
 
     def remove(self, id):
         self._base_damage.pop(id, None)
         self._damage.pop(id, None)
 
     def get_damage(self, id):
-        return self._damage[id]
+        return self._damage[id] + self._base_damage[id]
 
-    def set_damage(self, id, val):
+    def set_damage_mod(self, id, val):
         self._damage[id] = val
 
     def get_base_damage(self, id):

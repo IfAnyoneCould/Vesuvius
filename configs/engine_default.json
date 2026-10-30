@@ -25,7 +25,12 @@
   },
   "game": {
     "max_rounds": 15,
-    "winning_gold": 100
+    "winning_gold": 100,
+    "farming_rewards": {
+      "own": 0,
+      "adjacent": 2,
+      "diagonal": 4
+    }
   },
   "regions": {
     "count": 4,

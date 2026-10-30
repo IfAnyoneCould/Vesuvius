@@ -1,5 +1,6 @@
 from engine.core.config import Config
 from engine.core.handler import HandlerTemplate
+from engine.entities import regions
 
 
 class RegionHandler(HandlerTemplate):
@@ -31,6 +32,9 @@ class RegionHandler(HandlerTemplate):
     def get_region_index(self, id):
         return self.ids[id].get_region_index(id)
 
+    def get_adjacency(self, id1, id2):
+        return self.ids[id1].get_adjacency(id1, id2)
+
 
 class StandardRegionHandler:
     def __init__(self, config: Config) -> None:
@@ -51,3 +55,16 @@ class StandardRegionHandler:
 
     def get_region_index(self, id):
         return self._region_num[id]
+
+    # this only works for 4 regions, but it's never going to handle more than that
+    # if i really care later for some reason i can make it more expandable
+    def get_adjacency(self, id1, id2):
+        # 0 1 2 3 is 0  1
+        #            2  3
+        index1 = self._region_num[id1]
+        index2 = self._region_num[id2]
+        if index1 == index2:
+            return "own"
+        if index1 + index2 == 3:
+            return "diagonal"
+        return "adjacent"
