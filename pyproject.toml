@@ -1,13 +1,8 @@
 [project]
-name = "project2"
+name = "Vesuvius"
 version = "0.1.0"
 requires-python = ">=3.10"
-dependencies = [
-    "mpremote",
-    "ruff",
-]
+dependencies = ["mpremote", "ruff", "pillow", "numpy"]
 
 [tool.uv]
-dev-dependencies = [
-    "micropython-rp2-stubs",
-]
+dev-dependencies = ["micropython-rp2-stubs"]

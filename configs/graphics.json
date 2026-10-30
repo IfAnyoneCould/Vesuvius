@@ -2,9 +2,9 @@
   "textures": {
     "bytes_per_pixel": 2,
     "texture example": {
-      "path": "/sd/example",
-      "sizex": 320,
-      "sizey": 240
+      "path": "/sd/test.raw",
+      "sizex": 1920,
+      "sizey": 960
     }
   },
   "texturemaps": {
@@ -17,8 +17,8 @@
   "animations": {
     "animation example": {
       "source_map": "texturemap example",
-      "start_frame": 2,
-      "end_frame": 4,
+      "start_frame": 0,
+      "end_frame": 22,
       "time_step_ms": 500
     }
   },
