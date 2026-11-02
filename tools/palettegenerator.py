@@ -5,13 +5,13 @@ class Palette:
     def __init__(self, path=None) -> None:
         self.colors = None
         if path is not None:
-            # this only assumes that ONLY the filled array was written
+            # i don't think this works
             self.colors = np.fromfile(path, dtype=">u2")
 
     def from_data(self, colors):
         self.colors = np.unique(colors)
-        if self.size() > 256:
-            raise ValueError("too many colors in palette")
+        if self.size() > 16:
+            raise ValueError(f"too many colors in palette ({self.size()})")
 
     def get_colors(self):
         return self.colors

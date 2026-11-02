@@ -1,8 +1,10 @@
 {
   "textures": {
-    "bytes_per_pixel": 2,
+    "normal_bpp": 16,
+    "packed_bpp": 4,
     "texture example": {
-      "path": "/sd/test.raw",
+      "path": "/sd/textures/palette_test.raw",
+      "palette_path": "/sd/palettes/palette_test.pal",
       "sizex": 1920,
       "sizey": 960
     }
@@ -18,7 +20,7 @@
     "animation example": {
       "source_map": "texturemap example",
       "start_frame": 0,
-      "end_frame": 22,
+      "end_frame": 23,
       "time_step_ms": 167
     }
   },

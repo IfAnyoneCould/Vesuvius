@@ -9,6 +9,11 @@ def gen_palette(name, image_data):
     palette = Palette()
     palette.from_data(image_data)
     palette.write_palette("tools/palettes/" + name + ".pal")
+    new = np.unique(image_data, return_inverse=True)[1]
+    new = new.astype("u1").flatten()
+    packed = (new[0::2] << 4) | new[1::2]
+    packed.tofile("tools/converted/" + name + ".raw")
+    print(f"saved palette size: {palette.size()}")
 
 
 def convert_565(arr):
@@ -24,15 +29,14 @@ def convert_image(name, use_palette="false"):
     name, _ = os.path.splitext(name)
     arr = np.asarray(img.convert("RGB"))
     rgb565 = convert_565(arr)
-    print(f"input image width: {img.size[0]}\ninput image heigh: {img.size[1]}\n")
+    print(f"input image width: {img.size[0]}\ninput image height: {img.size[1]}\n")
     print(
         f"saved image width: {rgb565.shape[1]}\nsaved image height: {rgb565.shape[0]}"
     )
     if use_palette.title() == "True":
+        if rgb565.shape[1] % 2 != 0:
+            raise ValueError("image width must be even if using palette")
         gen_palette(name, rgb565)
-        new = np.unique(rgb565, return_inverse=True)[1]
-        new = new.astype("u1")
-        new.tofile("tools/converted/" + name)
     else:
         rgb565.tofile("tools/converted/" + name + ".raw")
 
@@ -57,13 +61,12 @@ def convert_texture_map(name, rows, cols, use_palette="false"):
             ].flatten()
             count += 1
 
-    print(f"input image width: {map.size[0]}\ninput image heigh: {map.size[1]}\n")
+    print(f"input image width: {map.size[0]}\ninput image height: {map.size[1]}\n")
     print(f"sprite_w: {sprite_w}\nsprite_h:{sprite_h}")
     if use_palette.title() == "True":
+        if sprite_w % 2 != 0:
+            raise ValueError("sprite width must be even if using palette")
         gen_palette(name, new_img)
-        new = np.unique(new_img, return_inverse=True)[1]
-        new = new.astype("u1")
-        new.tofile("tools/converted/" + name)
     else:
         new_img.tofile("tools/converted/" + name + ".raw")
 

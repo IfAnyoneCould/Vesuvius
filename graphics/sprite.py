@@ -39,10 +39,20 @@ class Sprite:
         if self.texturemap.mv is None:
             raise ValueError("cannot draw uninitialized sprite")
         lcd.use_lcd()
-        lcd.blit(
-            self.texturemap.mv,
-            self.x_pos,
-            self.y_pos,
-            self.texturemap.sprite_w,
-            self.texturemap.sprite_h,
-        )
+        if self.texturemap.is_palette_texture() and self.texturemap.palette is not None:
+            lcd.blit_palette(
+                self.texturemap.framebuf,
+                self.x_pos,
+                self.y_pos,
+                self.texturemap.sprite_w,
+                self.texturemap.sprite_h,
+                self.texturemap.palette,
+            )
+        else:
+            lcd.blit(
+                self.texturemap.mv,
+                self.x_pos,
+                self.y_pos,
+                self.texturemap.sprite_w,
+                self.texturemap.sprite_h,
+            )

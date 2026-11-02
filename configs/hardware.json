@@ -53,7 +53,7 @@
     "dc": 14,
     "rst": 15,
     "bl": 9,
-    "bpp": 2
+    "bpp": 16
   },
   "buttons": {
     "count": 2,

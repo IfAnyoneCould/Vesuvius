@@ -18,6 +18,8 @@ class TextureMap(Texture):
         if self.h % self.rows != 0:
             raise ValueError("texturemap rows do not fit evenly into texture height")
         self.row_size = self.sprite_h * self.sprite_w
+        self.row_width = self.sprite_w
+        self.row_height = self.sprite_h
 
     def get_sprite_pixels(self, index):
         if index >= self.rows * self.cols or index < 0:

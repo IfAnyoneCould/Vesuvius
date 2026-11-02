@@ -1,8 +1,10 @@
 from game.context import GameContext
 import game.gamestate as GameState
+import machine
 
 
 def main():
+    machine.freq(150_000_000, 150_000_000)  # pyright: ignore[reportCallIssue]
     try:
         ctx = GameContext()
 
@@ -31,11 +33,15 @@ from hardware.buttons import Buttons
 import _thread as thread
 import sys
 
+machine.freq(150_000_000, 150_000_000)  # pyright: ignore[reportCallIssue]
+
 h_config = ioconfig.load_config()
 g_config = graphicsconfig.load_config()
 spi = SPIHandler(h_config)
 sd = SD(spi, h_config)
-lcd = LCD(spi, h_config)
+buf = bytearray(320 * 240 * 2)
+mv = memoryview(buf)
+lcd = LCD(spi, h_config, mv)
 buttons = Buttons(h_config)
 
 animation = Animation("animation example", sd, g_config)

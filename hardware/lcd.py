@@ -2,10 +2,11 @@ from hardware.ioconfig import IoConfig
 from hardware.spi import SPIHandler
 from machine import Pin
 from drivers import st7789py as st7789
+import framebuf
 
 
 class LCD:
-    def __init__(self, spi_handler: SPIHandler, config: IoConfig):
+    def __init__(self, spi_handler: SPIHandler, config: IoConfig, mv: memoryview):
         self.config = config
         self.spi_handler = spi_handler
         spi = spi_handler.get_spi(config.lcd.spi_id)
@@ -21,6 +22,7 @@ class LCD:
         )
         self.resx = config.lcd.resx
         self.resy = config.lcd.resy
+        self.mv = mv
 
     def use_lcd(self):
         self.spi_handler.use(self.config.lcd.spi_id, self.config.lcd.baud)
@@ -33,5 +35,20 @@ class LCD:
         if y + height > self.resy:
             height = self.resy - y
         self.display.blit_buffer(
-            buf[: width * height * self.config.lcd.bpp], x, y, width, height
+            buf[: width * height * self.config.lcd.bpp // 8], x, y, width, height
+        )
+
+    def blit_palette(
+        self,
+        src,
+        x,
+        y,
+        width,
+        height,
+        palette: framebuf.FrameBuffer,
+    ):
+        dest = framebuf.FrameBuffer(self.mv, width, height, framebuf.RGB565)
+        dest.blit(src, 0, 0, -1, palette)
+        self.blit(
+            self.mv[: self.config.lcd.bpp // 8 * width * height], x, y, width, height
         )

@@ -98,13 +98,23 @@ class Animation:
         if self.frame_data is None:
             raise ValueError("cannot draw uninitialized animation")
         lcd.use_lcd()
-        lcd.blit(
-            self.frame_data,
-            self.x_pos,
-            self.y_pos,
-            self.texturemap.sprite_w,
-            self.texturemap.sprite_h,
-        )
+        if self.texturemap.is_palette_texture() and self.texturemap.palette is not None:
+            lcd.blit_palette(
+                self.texturemap.framebuf,
+                self.x_pos,
+                self.y_pos,
+                self.texturemap.sprite_w,
+                self.texturemap.sprite_h,
+                self.texturemap.palette,
+            )
+        else:
+            lcd.blit(
+                self.frame_data,
+                self.x_pos,
+                self.y_pos,
+                self.texturemap.sprite_w,
+                self.texturemap.sprite_h,
+            )
 
     def draw(self, lcd: LCD):
         if self.is_new_frame():

@@ -1,3 +1,5 @@
+import framebuf
+
 import engine.core.config as EngineConfig
 import hardware.ioconfig as IOConfig
 import graphics.graphicsconfig as GraphicsConfig
@@ -17,14 +19,28 @@ class GameContext:
         self.graphics_config = GraphicsConfig.load_config()
 
         # not super clean, but better than passing in configs to constructors
-        if self.io_config.lcd.bpp != self.graphics_config.textures["bytes_per_pixel"]:
+        if self.io_config.lcd.bpp != self.graphics_config.textures["normal_bpp"]:
             raise ValueError("graphics and io configs bpp must match, check both")
 
+        self.buffer = bytearray(
+            self.io_config.lcd.resx
+            * self.io_config.lcd.resy
+            * self.io_config.lcd.bpp
+            // 8
+        )
+        self.framebuf = framebuf.FrameBuffer(
+            self.buffer,
+            self.io_config.lcd.resx,
+            self.io_config.lcd.resy,
+            framebuf.RGB565,
+        )
+
+        self.mv = memoryview(self.buffer)
         self.spi_handler = SPIHandler(self.io_config)
         self.sd = SD(self.spi_handler, self.io_config)
         if self.sd.error is not None:
             raise self.sd.error
-        self.lcd = LCD(self.spi_handler, self.io_config)
+        self.lcd = LCD(self.spi_handler, self.io_config, self.mv)
         self.scanners = Scanners(self.spi_handler, self.io_config)
         self.buttons = Buttons(self.io_config)
 
