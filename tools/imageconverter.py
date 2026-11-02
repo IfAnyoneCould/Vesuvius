@@ -1,6 +1,14 @@
 from PIL import Image
 import numpy as np
 import sys
+import os
+from tools.palettegenerator import Palette
+
+
+def gen_palette(name, image_data):
+    palette = Palette()
+    palette.from_data(image_data)
+    palette.write_palette("tools/palettes/" + name + ".pal")
 
 
 def convert_565(arr):
@@ -11,19 +19,27 @@ def convert_565(arr):
     return (((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3)).astype(">u2")
 
 
-def convert_image(in_path, out_path):
-    img = Image.open(in_path)
+def convert_image(name, use_palette="false"):
+    img = Image.open("tools/unconverted/" + name)
+    name, _ = os.path.splitext(name)
     arr = np.asarray(img.convert("RGB"))
     rgb565 = convert_565(arr)
     print(f"input image width: {img.size[0]}\ninput image heigh: {img.size[1]}\n")
     print(
         f"saved image width: {rgb565.shape[1]}\nsaved image height: {rgb565.shape[0]}"
     )
-    rgb565.tofile(out_path)
+    if use_palette.title() == "True":
+        gen_palette(name, rgb565)
+        new = np.unique(rgb565, return_inverse=True)[1]
+        new = new.astype("u1")
+        new.tofile("tools/converted/" + name)
+    else:
+        rgb565.tofile("tools/converted/" + name + ".raw")
 
 
-def convert_texture_map(in_path, out_path, rows, cols):
-    map = Image.open(in_path)
+def convert_texture_map(name, rows, cols, use_palette="false"):
+    map = Image.open("tools/unconverted/" + name)
+    name, _ = os.path.splitext(name)
     arr = convert_565(np.asarray(map.convert("RGB")))
     sprite_w = map.size[0] // cols
     sprite_h = map.size[1] // rows
@@ -43,19 +59,28 @@ def convert_texture_map(in_path, out_path, rows, cols):
 
     print(f"input image width: {map.size[0]}\ninput image heigh: {map.size[1]}\n")
     print(f"sprite_w: {sprite_w}\nsprite_h:{sprite_h}")
-
-    new_img.tofile(out_path)
+    if use_palette.title() == "True":
+        gen_palette(name, new_img)
+        new = np.unique(new_img, return_inverse=True)[1]
+        new = new.astype("u1")
+        new.tofile("tools/converted/" + name)
+    else:
+        new_img.tofile("tools/converted/" + name + ".raw")
 
 
 def main(args):
     # ik this isn't very safe, but only im going to be using this
     match len(args):
+        case 2:
+            convert_image(args[1])
         case 3:
             convert_image(args[1], args[2])
+        case 4:
+            convert_texture_map(args[1], int(args[2]), int(args[3]))
         case 5:
-            convert_texture_map(args[1], args[2], int(args[3]), int(args[4]))
+            convert_texture_map(args[1], int(args[2]), int(args[3]), args[4])
         case _:
-            raise ValueError(f"only supports 2 or 4 arguments, got {len(args) - 1}")
+            raise ValueError(f"only supports 1, 2, 3, 4 arguments, got {len(args) - 1}")
 
 
 if __name__ == "__main__":
