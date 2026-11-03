@@ -5,35 +5,71 @@ import _thread as thread
 import sys
 
 
-class Farm:
-    def __init__(self, player_id, ids, ctx: GameContext):
-        self.ctx = ctx
-        self.player_id = player_id
-        self.ids = ids
-        self.lock = thread.allocate_lock()
+class ThreadHelper:
+    def __init__(self) -> None:
         self.running = True
         self.done = False
-        self.error = None
+        self.lock = thread.allocate_lock()
+        self.error: Exception | None = None
 
-    def farm_render(self, anim: Animation):
+    def start(self, args):
         try:
-            anim.gen_buffer()
+            thread.start_new_thread(self.render, args)
+        except OSError:
+            time.sleep_ms(5)
+            thread.start_new_thread(self.render, args)
+
+    def stop(self):
+        with self.lock:
+            self.running = False
+
+    def wait(self):
+        try:
             while self.running:
-                time_ms = time.ticks_ms()
-                anim.play(time_ms)
-                if anim.is_finished():
-                    with self.lock:
+                with self.lock:
+                    if self.error is not None:
                         self.running = False
-                    break
-                anim.draw(self.ctx.lcd)
+                        raise self.error
+                time.sleep_ms(1)
+        finally:
+            self.running = False
+            while not self.done:
+                time.sleep_ms(1)
+
+    def render(self, body, args, end, endargs):
+        try:
+            body(*args)
         except Exception as e:
             with self.lock:
                 sys.print_exception(e)
                 self.error = e
         finally:
-            anim.unload()
-            with self.lock:
-                self.done = True
+            try:
+                end(*endargs)
+            finally:
+                with self.lock:
+                    self.done = True
+
+
+class Farm:
+    def __init__(self, player_id, ids, ctx: GameContext):
+        self.ctx = ctx
+        self.player_id = player_id
+        self.ids = ids
+        self.thread = ThreadHelper()
+
+    def render(self, anim: Animation):
+        anim.gen_buffer()
+        while self.thread.running:
+            time_ms = time.ticks_ms()
+            anim.play(time_ms)
+            if anim.is_finished():
+                self.thread.stop()
+                break
+            anim.draw(self.ctx.lcd)
+
+    def render_cleanup(self, anim: Animation):
+        anim.unload()
 
     def farm(self):
         region_id = self.ids["center"]
@@ -60,23 +96,48 @@ class Farm:
 
     def run(self):
         anim = self.farm()
-        try:
-            thread.start_new_thread(self.farm_render, (anim,))
-        except OSError:
-            time.sleep_ms(5)
-            thread.start_new_thread(self.farm_render, (anim,))
-        try:
-            while self.running:
-                with self.lock:
-                    if self.error is not None:
-                        self.running = False
-                        raise self.error
-                time.sleep_ms(1)
-        finally:
-            self.running = False
-            while not self.done:
-                time.sleep_ms(1)
+        self.thread.start(
+            (
+                self.render,
+                (anim,),
+                self.render_cleanup,
+                (anim,),
+            )
+        )
+        self.thread.wait()  # i could put this in start but keeping them serperate might be useful
 
 
-def start_menu(ctx: GameContext):
-    pass
+class StartMenu:
+    def __init__(self, ctx: GameContext) -> None:
+        self.ctx = ctx
+        self.thread = ThreadHelper()
+
+    def render(self):
+        pass
+
+    def render_cleanup(self):
+        pass
+
+    def menu(self):
+        pass
+
+    def run(self):
+        pass
+
+
+class ModeSelect:
+    def __init__(self, ctx: GameContext) -> None:
+        self.ctx = ctx
+        self.thread = ThreadHelper()
+
+    def render(self):
+        pass
+
+    def render_cleanup(self):
+        pass
+
+    def menu(self):
+        pass
+
+    def run(self):
+        pass

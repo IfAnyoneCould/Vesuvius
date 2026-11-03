@@ -46,5 +46,11 @@
     "id_encoding": "big",
     "region_bytes": 16,
     "piece_bytes": 16
-  }
+  },
+  "modes": [
+    "standard",
+    "test1",
+    "test2",
+    "test3"
+  ]
 }

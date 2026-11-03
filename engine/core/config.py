@@ -76,6 +76,7 @@ class Config:
         self.game = Game(data["game"])
         self.regions = Regions(data["regions"])
         self.rfid = Rfid(data["rfid"])
+        self.modes = data["modes"]
 
 
 def deep_merge(base, override):
