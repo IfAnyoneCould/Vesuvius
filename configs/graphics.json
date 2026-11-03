@@ -7,6 +7,12 @@
       "palette_path": "/sd/palettes/palette_test.pal",
       "sizex": 1920,
       "sizey": 960
+    },
+    "farm_tundra": {
+      "path": "/sd/textures/farm_tundra_16.raw",
+      "palette_path": "/sd/palettes/farm_tundra_16.pal",
+      "sizex": 6400,
+      "sizey": 240
     }
   },
   "texturemaps": {
@@ -14,6 +20,11 @@
       "source_texture": "texture example",
       "rows": 4,
       "cols": 6
+    },
+    "farm_tundra": {
+      "source_texture": "farm_tundra",
+      "rows": 1,
+      "cols": 20
     }
   },
   "animations": {
@@ -21,6 +32,12 @@
       "source_map": "texturemap example",
       "start_frame": 0,
       "end_frame": 23,
+      "time_step_ms": 167
+    },
+    "farm_tundra": {
+      "source_map": "farm_tundra",
+      "start_frame": 0,
+      "end_frame": 19,
       "time_step_ms": 167
     }
   },

@@ -44,7 +44,7 @@ mv = memoryview(buf)
 lcd = LCD(spi, h_config, mv)
 buttons = Buttons(h_config)
 
-animation = Animation("animation example", sd, g_config)
+animation = Animation("farm_tundra", sd, g_config)
 
 animation.gen_buffer()
 
