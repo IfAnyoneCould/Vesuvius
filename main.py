@@ -1,5 +1,4 @@
 from game.context import GameContext
-import game.gamestate as GameState
 import machine
 
 
