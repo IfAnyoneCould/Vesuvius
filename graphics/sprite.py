@@ -56,3 +56,9 @@ class Sprite:
                 self.texturemap.sprite_w,
                 self.texturemap.sprite_h,
             )
+
+    def get_width(self):
+        return self.texturemap.sprite_w
+
+    def get_height(self):
+        return self.texturemap.sprite_h
