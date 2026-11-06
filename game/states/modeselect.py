@@ -95,4 +95,4 @@ class ModeSelect:
             else:
                 time.sleep_ms(1)
         self.thread.wait()
-        return self.current
+        return options[self.current]

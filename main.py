@@ -1,4 +1,5 @@
 from game.context import GameContext
+from game.gameloop import Game
 import machine
 
 
@@ -6,6 +7,8 @@ def main():
     machine.freq(150_000_000, 150_000_000)  # pyright: ignore[reportCallIssue]
     try:
         ctx = GameContext()
+        game = Game(ctx)
+        game.loop()
 
     except Exception as e:
         with open("/logs/errors.txt", "a+") as f:
@@ -14,78 +17,5 @@ def main():
         main()
 
 
-# if __name__ == "__main__":
-#    main()
-
-
-# TESTING
-# im not loading a full ctx because i haven't wired up all of the stuff yet
-#
-import hardware.ioconfig as ioconfig
-from graphics.animation import Animation
-from hardware.sd import SD
-from hardware.spi import SPIHandler
-import graphics.graphicsconfig as graphicsconfig
-import time
-from hardware.lcd import LCD
-from hardware.buttons import Buttons
-import _thread as thread
-import sys
-
-machine.freq(150_000_000, 150_000_000)  # pyright: ignore[reportCallIssue]
-
-h_config = ioconfig.load_config()
-g_config = graphicsconfig.load_config()
-spi = SPIHandler(h_config)
-sd = SD(spi, h_config)
-buf = bytearray(320 * 240 * 2)
-mv = memoryview(buf)
-lcd = LCD(spi, h_config, mv)
-buttons = Buttons(h_config)
-
-animation = Animation("farm_tundra", sd, g_config)
-
-animation.gen_buffer()
-
-playing = True
-running = True
-lock = thread.allocate_lock()
-error = None
-
-
-def render():
-    global error, running
-    try:
-        while running:
-            time_ms = time.ticks_ms()
-            if playing:
-                animation.play(time_ms)
-                animation.draw(lcd)
-            else:
-                time.sleep_ms(1)
-    except Exception as e:
-        with lock:
-            running = False
-            sys.print_exception(e)
-            error = e
-
-
-def game():
-    global playing, running
-    while running:
-        time_ms = time.ticks_ms()
-        buttons.update(time_ms)
-        if buttons.is_pressed("a"):
-            playing = not playing
-        with lock:
-            if error is not None:
-                running = False
-                raise error
-        time.sleep_ms(1)
-
-
-thread.start_new_thread(render, ())
-try:
-    game()
-finally:
-    running = False
+if __name__ == "__main__":
+    main()

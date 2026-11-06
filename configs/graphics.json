@@ -13,6 +13,24 @@
       "palette_path": "/sd/palettes/farm_tundra_16.pal",
       "sizex": 6400,
       "sizey": 240
+    },
+    "start_menu": {
+      "path": "/sd/textures/start_menu.raw",
+      "palette_path": "/sd/palettes/start_menu.pal",
+      "sizex": 2240,
+      "sizey": 240
+    },
+    "menu_background": {
+      "path": "/sd/textures/menu_background.raw",
+      "palette_path": "/sd/palettes/menu_background.pal",
+      "sizex": 320,
+      "sizey": 240
+    },
+    "menu_boxes": {
+      "path": "/sd/textures/menu_boxes.raw",
+      "palette_path": "/sd/palettes/menu_boxes.pal",
+      "sizex": 480,
+      "sizey": 60
     }
   },
   "texturemaps": {
@@ -25,6 +43,21 @@
       "source_texture": "farm_tundra",
       "rows": 1,
       "cols": 20
+    },
+    "start_menu": {
+      "source_texture": "start_menu",
+      "rows": 1,
+      "cols": 7
+    },
+    "menu_background": {
+      "source_texture": "menu_background",
+      "rows": 1,
+      "cols": 1
+    },
+    "menu_boxes": {
+      "source_texture": "menu_boxes",
+      "rows": 1,
+      "cols": 2
     }
   },
   "animations": {
@@ -39,12 +72,30 @@
       "start_frame": 0,
       "end_frame": 19,
       "time_step_ms": 167
+    },
+    "start_menu": {
+      "source_map": "start_menu",
+      "start_frame": 0,
+      "end_frame": 6,
+      "time_step_ms": 320
     }
   },
   "sprites": {
     "sprite example": {
       "source_map": "texturemap example",
       "frame": 5
+    },
+    "menu_background": {
+      "source_map": "menu_background",
+      "frame": 0
+    },
+    "menu_select_box": {
+      "source_map": "menu_boxes",
+      "frame": 0
+    },
+    "menu_select_highlight": {
+      "source_map": "menu_boxes",
+      "frame": 1
     }
   }
 }

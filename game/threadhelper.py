@@ -33,6 +33,8 @@ class ThreadHelper:
             self.running = False
             while not self.done:
                 time.sleep_ms(1)
+        if self.error is not None:
+            raise self.error
 
     def render(self, body, args, end, endargs):
         try:
@@ -45,6 +47,11 @@ class ThreadHelper:
         finally:
             try:
                 end(*endargs)
+            except Exception as e:
+                if self.error is None:
+                    with self.lock:
+                        sys.print_exception(e)
+                        self.error = e
             finally:
                 with self.lock:
                     self.done = True
