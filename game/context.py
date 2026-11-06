@@ -13,36 +13,42 @@ from engine.core.rfid import RFIDProcessor
 
 
 class GameContext:
-    def __init__(self, mode=None) -> None:
-        self.engine_config = EngineConfig.load_config(mode)
-        self.io_config = IOConfig.load_config()
-        self.graphics_config = GraphicsConfig.load_config()
+    def __init__(self, mode=None, kind="full") -> None:
 
-        # not super clean, but better than passing in configs to constructors
-        if self.io_config.lcd.bpp != self.graphics_config.textures["normal_bpp"]:
-            raise ValueError("graphics and io configs bpp must match, check both")
+        # this isn't really 'minimal' per say rn
+        if kind in ["full", "minimal"]:
+            self.engine_config = EngineConfig.load_config(mode)
+            self.io_config = IOConfig.load_config()
+            self.graphics_config = GraphicsConfig.load_config()
 
-        self.buffer = bytearray(
-            self.io_config.lcd.resx
-            * self.io_config.lcd.resy
-            * self.io_config.lcd.bpp
-            // 8
-        )
-        self.framebuf = framebuf.FrameBuffer(
-            self.buffer,
-            self.io_config.lcd.resx,
-            self.io_config.lcd.resy,
-            framebuf.RGB565,
-        )
+            # not super clean, but better than passing in configs to constructors
+            if self.io_config.lcd.bpp != self.graphics_config.textures["normal_bpp"]:
+                raise ValueError("graphics and io configs bpp must match, check both")
 
-        self.mv = memoryview(self.buffer)
-        self.spi_handler = SPIHandler(self.io_config)
-        self.sd = SD(self.spi_handler, self.io_config)
-        if self.sd.error is not None:
-            raise self.sd.error
-        self.lcd = LCD(self.spi_handler, self.io_config, self.mv)
-        self.scanners = Scanners(self.spi_handler, self.io_config)
-        self.buttons = Buttons(self.io_config)
+            self.buffer = bytearray(
+                self.io_config.lcd.resx
+                * self.io_config.lcd.resy
+                * self.io_config.lcd.bpp
+                // 8
+            )
+            self.framebuf = framebuf.FrameBuffer(
+                self.buffer,
+                self.io_config.lcd.resx,
+                self.io_config.lcd.resy,
+                framebuf.RGB565,
+            )
 
-        self.handlers = HandlerContainer(self.engine_config)
-        self.rfid_processor = RFIDProcessor(self.scanners, self.engine_config)
+            self.mv = memoryview(self.buffer)
+            self.spi_handler = SPIHandler(self.io_config)
+            self.lcd = LCD(self.spi_handler, self.io_config, self.mv)
+
+        if kind in ["full"]:
+            self.sd = SD(self.spi_handler, self.io_config)
+            if self.sd.error is not None:
+                raise self.sd.error
+
+            self.scanners = Scanners(self.spi_handler, self.io_config)
+            self.buttons = Buttons(self.io_config)
+
+            self.handlers = HandlerContainer(self.engine_config)
+            self.rfid_processor = RFIDProcessor(self.scanners, self.engine_config)

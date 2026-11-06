@@ -1,12 +1,9 @@
 from game.context import GameContext
 import io
 import sys
-import time
 
 
-def display_error(ctx: GameContext, error: Exception, first=True):
-    if not first:
-        return
+def display_error(ctx: GameContext, error: Exception) -> str:
     w = ctx.io_config.lcd.resx
     h = ctx.io_config.lcd.resy
     err = io.StringIO()
@@ -23,9 +20,4 @@ def display_error(ctx: GameContext, error: Exception, first=True):
             offset += 10
     ctx.lcd.use_lcd()
     ctx.lcd.blit(ctx.mv, 0, 0, w, h)
-    try:
-        ctx.sd.use_sd()
-        with open("/sd/logs/errors.txt", "a") as f:
-            f.write("ticks: " + str(time.ticks_ms()) + " | " + err.getvalue() + "\n")
-    except Exception as e:
-        display_error(ctx, e, first=False)
+    return err.getvalue()

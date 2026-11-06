@@ -1,1 +1,1 @@
-{"reportMissingModuleSource":false,"typeCheckingMode":"standard","typeshedPath":".venv/Lib/site-packages","venv":".venv","venvPath":".","executionEnvironments":[{"root":"tools","extraPaths":["."],"reportAttributeAccessIssue":false},{"root":"."}]}
+{"reportMissingModuleSource":false,"typeCheckingMode":"standard","typeshedPath":".venv/Lib/site-packages","venv":".venv","venvPath":".","executionEnvironments":[{"root":"tools","extraPaths":["."],"reportAttributeAccessIssue":false},{"root":"."}],"ignore":["drivers","typings"]}

@@ -7,6 +7,10 @@ from hardware.spi import SPIHandler
 
 class SD:
     def __init__(self, spi_handler: SPIHandler, config: IoConfig):
+        try:
+            os.umount(config.sd.mount_point)
+        except Exception:
+            pass
         self.spi_handler = spi_handler
         self.config = config
         self.error = None
