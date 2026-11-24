@@ -57,4 +57,9 @@ class Farm:
                 (anim,),
             )
         )
+        while self.thread.running:
+            self.ctx.buttons.update(time.ticks_ms())
+            if self.ctx.buttons.is_pressed("a"):
+                self.thread.stop()
+            time.sleep_ms(1)
         self.thread.wait()

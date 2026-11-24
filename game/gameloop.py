@@ -3,6 +3,7 @@ from game.states.farm import Farm
 from game.states.modeselect import ModeSelect
 from game.states.startmenu import StartMenu
 from game.states.testing import Testing
+from game.states.displaytags import ShowTags
 import time
 
 
@@ -13,12 +14,13 @@ class Game:
         self.turn = 0
         self.player_order = []
         self.running = True
-        self.last_state = "none"
+        self.last_state = "start_menu"
         self.state = "start_menu"
         self.states = {
             "start_menu": self.start_menu,
             "mode_select": self.mode_select,
             "testing": self.testing,
+            "display_rfids": self.display_rfids,
         }
 
     def set_state(self, state):
@@ -37,6 +39,8 @@ class Game:
             self.set_state("player_init")
         elif mode == "back":
             self.set_state(self.last_state)
+        elif mode == "test1":
+            self.set_state("display_rfids")
         else:
             self.set_state("testing")
 
@@ -44,6 +48,11 @@ class Game:
         s = Testing(self.ctx)
         s.run()
         self.set_state(self.last_state)
+
+    def display_rfids(self):
+        s = ShowTags(self.ctx)
+        s.run()
+        self.set_state("mode_select")
 
     def start(self):
         pass

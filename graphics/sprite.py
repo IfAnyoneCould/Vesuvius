@@ -28,12 +28,34 @@ class Sprite:
     def get_position(self):
         return (self.x_pos, self.y_pos)
 
+    def size(self):
+        return (self.texturemap.sprite_w, self.texturemap.sprite_h)
+
     def load(self):
         self.texturemap.gen_buffer()
         self.load_sprite()
 
     def unload(self):
         self.texturemap.unload()
+
+    def write_buffer(self, lcd: LCD):
+        if self.texturemap.mv is None:
+            raise ValueError("cannot draw uninitialized sprite")
+        if self.texturemap.is_palette_texture() and self.texturemap.palette is not None:
+            lcd.write_buffer(
+                self.texturemap.framebuf,
+                self.texturemap.sprite_w,
+                self.texturemap.sprite_h,
+                self.texturemap.palette,
+            )
+        else:
+            raise ValueError("cannot write non palette sprite to a framebuffer")
+
+    def write_screen(self, lcd: LCD):
+        lcd.use_lcd()
+        lcd.write_screen(
+            self.x_pos, self.y_pos, self.texturemap.sprite_w, self.texturemap.sprite_h
+        )
 
     def draw(self, lcd: LCD):
         if self.texturemap.mv is None:

@@ -56,14 +56,14 @@ class MFRC522:
     def _wreg(self, reg, val):
 
         self.cs.value(0)
-        self.spi.write(b'%c' % int(0xff & ((reg << 1) & 0x7e)))
-        self.spi.write(b'%c' % int(0xff & val))
+        self.spi.write(bytes([(reg << 1) & 0x7e]))
+        self.spi.write(bytes([0xff & val]))
         self.cs.value(1)
 
     def _rreg(self, reg):
 
         self.cs.value(0)
-        self.spi.write(b'%c' % int(0xff & (((reg << 1) & 0x7e) | 0x80)))
+        self.spi.write(bytes([((reg << 1) & 0x7e) | 0x80]))
         val = self.spi.read(1)
         self.cs.value(1)
 
@@ -104,7 +104,7 @@ class MFRC522:
         while True:
             n = self._rreg(0x04)
             i -= 1
-            if ~((i != 0) and ~(n & 0x01) and ~(n & wait_irq)):
+            if not ((i != 0) and not (n & 0x01) and not (n & wait_irq)):
                 break
 
         self._cflags(0x0D, 0x80)
@@ -468,7 +468,7 @@ class MFRC522:
                 self.NTAG= self.NTAG_215
                 self.NTAG_MaxPage = 134                  
                 return True
-            if rcv[7] == 0x13:
+            if rcv[6] == 0x13:
                 self.NTAG= self.NTAG_216
                 self.NTAG_MaxPage = 230                  
                 return True

@@ -4,8 +4,6 @@ from game.states.displayerror import display_error
 import machine
 import time
 import gc
-import io
-import sys
 
 
 def main():

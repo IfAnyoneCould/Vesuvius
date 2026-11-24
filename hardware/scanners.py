@@ -63,6 +63,8 @@ class Scanners:
         scanner = self.scanners[index]
         if not self.select_tag(scanner):
             return False
+        if not scanner.IsNTAG():
+            return False
         start = int(self.config.scanners.memory_block.start, 16)
         end = int(self.config.scanners.memory_block.end, 16)
         for addr in range(start, end):

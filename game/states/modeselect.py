@@ -24,20 +24,28 @@ class ModeSelect:
         box.load()
         select_box.load()
 
-        # TODO implement text, currently only draws generic boxes
-
         bg.draw(self.ctx.lcd)
+
         while self.thread.running:
             if self.changed:
                 with self.thread.lock:
                     self.changed = False
+
                 for i, o in enumerate(options):
-                    if self.current == i:
-                        select_box.set_position(x_offset, y_offset * i)
-                        select_box.draw(self.ctx.lcd)
-                    else:
-                        box.set_position(x_offset, y_offset * i)
-                        box.draw(self.ctx.lcd)
+                    current_box = select_box if self.current == i else box
+                    box_width, box_height = box.size()
+                    current_box.set_position(x_offset, y_offset * i)
+                    current_box.write_buffer(self.ctx.lcd)
+                    self.ctx.lcd.write_text(
+                        o,
+                        box_width // 2,
+                        box_height // 2,
+                        box_width,
+                        box_height,
+                        "body",
+                        center=True,
+                    )
+                    current_box.write_screen(self.ctx.lcd)
             else:
                 time.sleep_ms(1)
 
