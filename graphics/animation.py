@@ -1,3 +1,4 @@
+from graphics import texturemap
 from graphics.texturemap import TextureMap
 from graphics.graphicsconfig import GraphicsConfig
 from hardware.lcd import LCD
@@ -93,6 +94,31 @@ class Animation:
 
     def gen_buffer(self):
         self.texturemap.gen_buffer()
+
+    def write_buffer(self, lcd: LCD):
+        if self.is_new_frame():
+            # this is basically the exact function inside of animation, but making it cleaner
+            # is far more effor than its worth for this small a project
+            if self.frame_data is None:
+                raise ValueError("cannot draw uninitialized animation")
+            if (
+                self.texturemap.is_palette_texture()
+                and self.texturemap.palette is not None
+            ):
+                lcd.write_buffer(
+                    self.texturemap.framebuf,
+                    self.texturemap.sprite_w,
+                    self.texturemap.sprite_h,
+                    self.texturemap.palette,
+                )
+            else:
+                raise ValueError("cannot write non palette animation to a framebuffer")
+
+    def write_screen(self, lcd: LCD):
+        lcd.use_lcd()
+        lcd.write_screen(
+            self.x_pos, self.y_pos, self.texturemap.sprite_w, self.texturemap.sprite_h
+        )
 
     def draw_frame(self, lcd: LCD):
         if self.frame_data is None:

@@ -14,7 +14,17 @@ class StartMenu:
         while self.thread.running:
             time_ms = time.ticks_ms()
             anim.play(time_ms)
-            anim.draw(self.ctx.lcd)
+            anim.write_buffer(self.ctx.lcd)
+            self.ctx.lcd.write_text(
+                "Press A",
+                self.ctx.lcd.resx // 2,
+                self.ctx.lcd.resy // (6 / 5),  # kind of hacky, but if it works it works
+                self.ctx.lcd.resx,
+                self.ctx.lcd.resy,
+                "title",
+                center=True,
+            )
+            anim.write_screen(self.ctx.lcd)
 
     def render_cleanup(self, anim: Animation):
         anim.unload()
