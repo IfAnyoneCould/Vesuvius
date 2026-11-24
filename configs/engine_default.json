@@ -4,6 +4,9 @@
     "units": 3,
     "start_gold": 0
   },
+  "battle": {
+    "dice_rolls": 6
+  },
   "unit": {
     "start_gold": 0,
     "_dev_unit_": {

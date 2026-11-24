@@ -64,3 +64,6 @@ class Texture:
 
     def is_palette_texture(self):
         return self.palettebuf is not None
+
+    def is_loaded(self):
+        return self.buf is not None

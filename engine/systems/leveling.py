@@ -12,7 +12,7 @@ def calc_stats(unit_id, handlers: HandlerContainer):
     health_mod = int(10 * math.log(gold + 1))
     damage_mod = int(10 * math.log(gold + 1))
 
-    handlers.healh_handler.set_health_mod(unit_id, health_mod)
+    handlers.health_handler.set_health_mod(unit_id, health_mod)
     handlers.damage_handler.set_damage_mod(unit_id, damage_mod)
 
 
@@ -21,4 +21,4 @@ def deposit_gold(unit_id, castle_id, handlers: HandlerContainer):
     if not handlers.gold_handler.deposit(unit_id, castle_id):
         raise ValueError(f"failed deposit between {unit_id} and {castle_id}")
     calc_stats(unit_id, handlers)
-    handlers.healh_handler.full_heal(unit_id)
+    handlers.health_handler.full_heal(unit_id)

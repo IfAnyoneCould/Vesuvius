@@ -84,3 +84,6 @@ class Sprite:
 
     def get_height(self):
         return self.texturemap.sprite_h
+
+    def is_loaded(self):
+        return self.texturemap.is_loaded()

@@ -24,6 +24,7 @@ class Farm:
     def render_cleanup(self, anim: Animation):
         anim.unload()
 
+    # this should really be in a system instead of in state
     def farm(self):
         region_id = self.ids["center"]
         region = self.ctx.handlers.region_handler.get_name(region_id)

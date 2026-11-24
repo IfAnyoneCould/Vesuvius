@@ -7,7 +7,7 @@ def new_unit(kind, handlers: HandlerContainer):
     stats = getattr(handlers.config.unit, kind)
     handlers.gold_handler.add(id, "unit")
     handlers.damage_handler.add(id, "unit", stats.base_damage)
-    handlers.healh_handler.add(id, "unit", stats.base_health)
+    handlers.health_handler.add(id, "unit", stats.base_health)
     return id
 
 
@@ -17,4 +17,4 @@ def remove_unit(id, handlers: HandlerContainer):
         handlers.player_handler.remove_unit(player, id)
     handlers.gold_handler.remove(id)
     handlers.damage_handler.remove(id)
-    handlers.healh_handler.remove(id)
+    handlers.health_handler.remove(id)

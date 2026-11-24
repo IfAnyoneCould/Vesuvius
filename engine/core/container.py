@@ -11,7 +11,7 @@ class HandlerContainer:
     def __init__(self, config: Config) -> None:
         self.config = config
         self.gold_handler = GoldHandler(config)
-        self.healh_handler = HealthHandler(config)
+        self.health_handler = HealthHandler(config)
         self.damage_handler = DamageHandler(config)
         self.player_handler = PlayerHandler(config)
         self.region_handler = RegionHandler(config)

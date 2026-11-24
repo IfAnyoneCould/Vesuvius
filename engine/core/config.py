@@ -8,6 +8,11 @@ class Player:
         self.start_gold: int = data["start_gold"]
 
 
+class Battle:
+    def __init__(self, data) -> None:
+        self.dice_rolls = data["dice_rolls"]
+
+
 class _Dev_Unit_:
     def __init__(self, data) -> None:
         self.base_health = data["base_health"]
@@ -72,6 +77,7 @@ class Rfid:
 class Config:
     def __init__(self, data):
         self.player = Player(data["player"])
+        self.battle = Battle(data["battle"])
         self.unit = Unit(data["unit"])
         self.game = Game(data["game"])
         self.regions = Regions(data["regions"])

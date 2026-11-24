@@ -151,3 +151,6 @@ class Animation:
 
     def is_new_frame(self):
         return self.just_changed
+
+    def is_loaded(self):
+        return self.texturemap.is_loaded()

@@ -4,6 +4,7 @@ from game.states.modeselect import ModeSelect
 from game.states.startmenu import StartMenu
 from game.states.testing import Testing
 from game.states.displaytags import ShowTags
+from game.states.battle import Battle
 import time
 
 
@@ -21,7 +22,9 @@ class Game:
             "mode_select": self.mode_select,
             "testing": self.testing,
             "display_rfids": self.display_rfids,
+            "battle": self.battle,
         }
+        self.ids = {}
 
     def set_state(self, state):
         self.last_state = self.state
@@ -53,6 +56,10 @@ class Game:
         s = ShowTags(self.ctx)
         s.run()
         self.set_state("mode_select")
+
+    def battle(self):
+        s = Battle(self.ids, self.ctx)
+        s.run()
 
     def start(self):
         pass
