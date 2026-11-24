@@ -12,16 +12,16 @@ def main():
     scanners = Scanners(spi, config)
     econfig = engineconfig.load_config()
 
+    processor = RFIDProcessor(scanners, econfig)
+
     while True:
         id = input("id: ")
         piece = input("piece: ")
         region = input("region: ")
-        processor = RFIDProcessor(scanners, econfig)
         tag = processor.encode_rfid(int(id), piece, region)
         for s in range(config.scanners.count):
             if scanners.write_index(s, tag):  # just going to write to all of them
                 print("success")
-                result = True  # dumb way to set it but im being really lazy rn
                 break
         else:
             print("failed")

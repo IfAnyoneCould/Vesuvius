@@ -452,8 +452,6 @@ class MFRC522:
                 return False  #do we have at least 8 bytes
             if rcv[0] != 0:
                 return False  #check header
-            if rcv[1] != 4:
-                return False  #check Vendor ID
             if rcv[2] != 4:
                 return False  #check product type
             if rcv[3] != 2:
