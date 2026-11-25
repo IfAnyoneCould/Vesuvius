@@ -1,6 +1,7 @@
 from game.context import GameContext
 from game.threadhelper import ThreadHelper
 from graphics.animation import Animation
+from engine.systems.farm import farm
 import time
 
 
@@ -24,32 +25,13 @@ class Farm:
     def render_cleanup(self, anim: Animation):
         anim.unload()
 
-    # this should really be in a system instead of in state
-    def farm(self):
-        region_id = self.ids["center"]
-        region = self.ctx.handlers.region_handler.get_name(region_id)
-        farm_animation = Animation(
+    def run(self):
+        region = farm(self.player_id, self.ids, self.ctx.handlers)
+        anim = Animation(
             "farm_" + region,
             self.ctx.sd,
             self.ctx.graphics_config,
         )
-
-        player_region_id = self.ctx.handlers.player_handler.get_region(self.player_id)
-        region_position = self.ctx.handlers.region_handler.get_adjacency(
-            player_region_id, region_id
-        )
-
-        units = [i for p, i in self.ids.items() if p != "center"]
-        gold_amount = getattr(
-            self.ctx.engine_config.game.farming_rewards, region_position
-        )
-        for unit in units:
-            self.ctx.handlers.gold_handler.add_gold(unit, gold_amount)
-
-        return farm_animation
-
-    def run(self):
-        anim = self.farm()
         self.thread.start(
             (
                 self.render,
