@@ -67,6 +67,30 @@ class PlayerHandler(HandlerTemplate):
     def get_player_from_region(self, id):
         return self.region_to_player.get(id)
 
+    # this is kind of horrible but if it works it works
+    def get_player_from_id(self, id):
+        result: dict[str, str | int | None] = {"type": None, "owner": None}
+        if self.ids.get(id) is not None:
+            result["type"] = "player"
+            result["owner"] = id
+
+        p = self.get_player_from_region(id)
+        if p is not None:
+            result["type"] = "region"
+            result["owner"] = p
+
+        p = self.get_player_from_castle(id)
+        if p is not None:
+            result["type"] = "castle"
+            result["owner"] = p
+
+        p = self.get_player_from_unit(id)
+        if p is not None:
+            result["type"] = "unit"
+            result["owner"] = p
+
+        return result
+
 
 class StandardPlayerHandler:
     def __init__(self, config: Config):
